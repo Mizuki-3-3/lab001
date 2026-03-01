@@ -8,10 +8,12 @@ typedef void (*test_func)();
 
 typedef struct test{
     const char* name;
-    test_func test;
+    test_func func;
     struct test* next;
 }test;
 
 void register_test(const char* name, test_func test);
-void run_tests();
+void run_tests(void);
+void free_tests(void);
+
 #endif

@@ -11,8 +11,8 @@ typedef struct cursed_window {
     WINDOW *overlay;
 } curw;
 
-void start_to_work();
-curw *make_new_win();
-void check_input_type();
+void start_to_work(void);
+curw *make_new_win(void);
+void check_input_type(void);
 
 #endif
