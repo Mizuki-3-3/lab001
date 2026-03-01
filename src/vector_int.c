@@ -2,16 +2,6 @@
 
 static field_info* int_field_info = NULL;
 
-field_info* create_int_field_info(){
-    field_info* temp = (field_info*)malloc(sizeof(field_info));
-    if (!temp){
-        return;
-    }
-    temp->add = add_int;
-    temp->multip = multip_int;
-    return temp;
-}
-
 field_info* get_int_field_info() {
     if (!int_field_info) {
         int_field_info = create_int_field_info();
@@ -19,8 +9,22 @@ field_info* get_int_field_info() {
     return int_field_info;
 }//можем нули возвращать надо подумать как фиксить
 
+field_info* create_int_field_info(){
+    field_info* temp = (field_info*)malloc(sizeof(field_info));
+    if (!temp){
+        return NULL;
+    }
+    temp->add = add_int;
+    temp->multip = multip_int;
+    return temp;
+}
+
+int types_are_int(vector* a, vector* b){
+    return (a->info == &int_field_info && b->info == &int_field_info);
+}
+
 vector* add_int(const vector* a, const vector* b){
-    if(!types_is_equal(a, b)){return;}
+    if(!types_are_int(a, b)){return NULL;}
     vector* result = (vector*)malloc(sizeof(vector));
     int* new_x = malloc(sizeof(int));
     int* new_y = malloc(sizeof(int));
@@ -35,9 +39,13 @@ vector* add_int(const vector* a, const vector* b){
     return (void*)result;
 }
 
-int multip_int(vector* a, vector* b){
-    if(!types_is_equal(a, b)){return;}
-    int result;
-    result = (*(int*)a->x)*(*(int*)b->x) + (*(int*)a->y)*(*(int*)b->y);
-    return result;
+int multip_int(vector* a, vector* b, int* result){
+    if(!types_are_int(a, b)){return 0;}
+    *result = (*(int*)a->x)*(*(int*)b->x) + (*(int*)a->y)*(*(int*)b->y);
+    return 1;
+}
+
+int is_equal_int(vector* a, vector* b){
+    if (!types_are_int){return -1;}
+    return (*(int*)(a->x)==*(int*)(b->x)&&*(int*)(a->y)==*(int*)(b->y));
 }

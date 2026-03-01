@@ -10,12 +10,25 @@ field_info* get_double_field_info() {
 }
 field_info* create_double_field_info(){
     field_info* temp = (field_info*)malloc(sizeof(field_info));
+    if (!temp){
+        return NULL;
+    }
     temp->add = add_double;
     temp->multip = multip_double;
+    return temp;
+}
+
+int types_are_double(vector* a, vector* b){
+    return (a->info == &double_field_info && b->info == &double_field_info);
+}
+
+int is_equal_double(vector* a, vector* b){
+    if (!types_are_double){return -1;}
+    return (*(double*)(a->x)==*(double*)(b->x)&&*(double*)(a->y)==*(double*)(b->y));
 }
 
 vector* add_double(const vector* a, const vector* b){
-    if(!types_is_equal(a, b)){return;}
+    if(!types_are_double(a, b)){return NULL;}
     vector* result = (vector*)malloc(sizeof(vector));
     double* new_x = malloc(sizeof(double));
     double* new_y = malloc(sizeof(double));
@@ -30,9 +43,8 @@ vector* add_double(const vector* a, const vector* b){
     return (void*)result;
 }
 
-double multip_double(vector* a, vector* b){
-    if(!types_is_equal(a, b)){return;}
-    double result;
-    result = (*(double*)(a->x))*(*(double*)(b->x)) + (*(double*)(a->y))*(*(double*)(b->y));
-    return result;
+double multip_double(vector* a, vector*b, double* result){
+    if(!types_are_double(a, b)){return 0;}
+    *result = (*(double*)(a->x))*(*(double*)(b->x)) + (*(double*)(a->y))*(*(double*)(b->y));
+    return 1;
 }

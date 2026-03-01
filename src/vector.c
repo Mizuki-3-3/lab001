@@ -9,25 +9,6 @@ vector new_vector(void* x, void* y, int is_int){
     return vec;
 }
 
-list create_list(int size, field_info* type){
-    list the_list;
-    the_list.head = NULL;
-    the_list.tail = NULL;
-    the_list.list_type = type;
-    the_list.size = 0;
-    return the_list;
-}
-
-int types_is_equal(vector* vec1, vector* vec2){
-    return (vec1->info == vec2->info);
-}
-
-int is_equal(vector* vec1, vector* vec2){
-    return (vec1->x==vec2->x && vec1->y == vec2->y);
-}
-
-
-
 
 //for floats if it'll be needed
 // static field_info* float_field_info;

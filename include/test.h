@@ -1,3 +1,6 @@
+#ifndef TESTING_H
+#define TESTING_H
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -8,5 +11,7 @@ typedef struct test{
     test_func test;
     struct test* next;
 }test;
+
 void register_test(const char* name, test_func test);
-void run_test();
+void run_tests();
+#endif

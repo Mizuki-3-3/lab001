@@ -11,23 +11,9 @@ typedef struct {
 }vector;
 
 typedef struct{
-    vector* (*add)(vector vec1, vector vec2);
-    vector* (*multip)(vector vec1, vector vec2);
+    vector* (*add)(vector* vec1, vector* vec2);
+    vector* (*multip)(vector* vec1, vector* vec2);
 }field_info;
-
-typedef struct{
-    vector* next;
-    vector* value;
-}list_node;
-
-typedef struct{
-    list_node* head;
-    list_node* tail;
-    field_info* list_type;
-    int size;
-}list;
-
-
 
 vector new_vector(void* x, void* y, int is_int);
 
@@ -44,7 +30,9 @@ field_info* create_double_field_info(void);
 field_info* get_int_field_info(void);
 field_info* create_int_field_info(void);
 
-int types_is_equal(vector* vec1, vector* vec2);
-int is_equal(vector* vec1, vector* vec2);
+int types_are_double(vector* a, vector* b);
+int types_are_int(vector* a, vector* b);
+int is_equal_int(vector* a, vector* b);
+int is_equal_double(vector* a, vector* b);
 
 #endif
