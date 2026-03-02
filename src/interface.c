@@ -45,7 +45,6 @@ void check_input_type(){
     char input[100] = "";
     double x;
     int num;
-    char str[20] = "";
     int assignment[5] = {0};
     double tolerance = 1e-12;
 
@@ -60,9 +59,6 @@ void check_input_type(){
         } else { 
             printf("The input is a integer\n");
         }
-    } else if (sscanf(input, "%s", str) == 1) { 
-      // Check if it is string
-        printf("The input is a string\n");
     } else { 
       // No match error.
         printf("input not recognized\n");

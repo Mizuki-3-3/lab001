@@ -23,7 +23,7 @@ int types_are_double(vector* a, vector* b){
 }
 
 int is_equal_double(vector* a, vector* b){
-    if (!types_are_double){return -1;}
+    if (!types_are_double(a,b)){return -1;}
     return (*(double*)(a->x)==*(double*)(b->x)&&*(double*)(a->y)==*(double*)(b->y));
 }
 
@@ -43,8 +43,8 @@ vector* add_double(const vector* a, const vector* b){
     return (void*)result;
 }
 
-double multip_double(vector* a, vector*b, double* result){
+int multip_double(vector* a, vector*b, void* result){
     if(!types_are_double(a, b)){return 0;}
-    *result = (*(double*)(a->x))*(*(double*)(b->x)) + (*(double*)(a->y))*(*(double*)(b->y));
+    *(double*)result = (*(double*)(a->x))*(*(double*)(b->x)) + (*(double*)(a->y))*(*(double*)(b->y));
     return 1;
 }

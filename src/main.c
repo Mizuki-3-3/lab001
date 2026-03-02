@@ -12,12 +12,11 @@ int main() {
         return 0;
     }
 
-    // Пишем что-нибудь во внутреннюю область (overlay)
     mvwaddstr(mywin->overlay, 1, 1, "Привет, мир!");
     mvwaddstr(mywin->overlay, 2, 1, "Это тестовая строка.");
     wrefresh(mywin->overlay);
     getch();
-    // Ждём нажатия клавиши для выхода
+
     mvaddstr(0, 0, "Нажмите любую клавишу для выхода...");
     refresh();
     

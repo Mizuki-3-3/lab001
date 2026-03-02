@@ -27,12 +27,12 @@ void reset_local_counts() {
 }
 
 int assert_fail(const char* expr, const char* file, size_t lineno) {
-    inc_fail();
+    int_fail();
     fprintf(stderr, "\033[0;31mAssertion failed: %s at %s:%zu\033[0m\n", expr, file, lineno);
     return 0;
 }
 
 int assert_success(const char* expr, const char* file, size_t lineno){
-    int_succes();
+    int_success();
     return 1;
 }

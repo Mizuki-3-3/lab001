@@ -19,7 +19,7 @@ field_info* create_int_field_info(){
     return temp;
 }
 
-int types_are_int(vector* a, vector* b){
+int types_are_int(const vector* a, const vector* b){
     return (a->info == &int_field_info && b->info == &int_field_info);
 }
 
@@ -39,13 +39,13 @@ vector* add_int(const vector* a, const vector* b){
     return (void*)result;
 }
 
-int multip_int(vector* a, vector* b, int* result){
+int multip_int(const vector* a, const vector* b, void* result){
     if(!types_are_int(a, b)){return 0;}
-    *result = (*(int*)a->x)*(*(int*)b->x) + (*(int*)a->y)*(*(int*)b->y);
+    *(int*)result = (*(int*)a->x)*(*(int*)b->x) + (*(int*)a->y)*(*(int*)b->y);
     return 1;
 }
 
-int is_equal_int(vector* a, vector* b){
-    if (!types_are_int){return -1;}
+int is_equal_int(const vector* a, const vector* b){
+    if (!types_are_int(a,b)){return -1;}
     return (*(int*)(a->x)==*(int*)(b->x)&&*(int*)(a->y)==*(int*)(b->y));
 }
