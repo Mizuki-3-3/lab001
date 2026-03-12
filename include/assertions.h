@@ -1,6 +1,7 @@
 #ifndef ASSERTIONS_H
 #define ASSERTIONS_H
 #include <stdio.h>
+#include <stddef.h>
 
 #define assert(expr) \
     ((!!(expr)) \
@@ -11,9 +12,9 @@
 void int_success(void);
 void int_fail(void);
 void reset_local_counts(void);
-size_t get_local_fail(void);
-size_t get_local_success(void);
-
+int get_local_fail(void);
+int get_local_success(void);
+int print_stats();
 
 int assert_success(const char* expr, const char* file, size_t line);
 int assert_fail(const char* expr, const char* file, size_t line);

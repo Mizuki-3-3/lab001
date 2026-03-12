@@ -20,7 +20,7 @@ field_info* create_int_field_info(){
 }
 
 int types_are_int(const vector* a, const vector* b){
-    return (a->info == &int_field_info && b->info == &int_field_info);
+    return (a->info == int_field_info && b->info == int_field_info);
 }
 
 vector* add_int(const vector* a, const vector* b){
@@ -36,6 +36,7 @@ vector* add_int(const vector* a, const vector* b){
     *new_y = *(int*)(a->y) + *(int*)(b->y);
     result->x = new_x;
     result->y = new_y;
+    result->info = get_int_field_info();
     return (void*)result;
 }
 

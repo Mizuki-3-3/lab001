@@ -1,9 +1,32 @@
 #include "assertions.h"
+#include "test.h"
 
-static size_t success_count = 0;  //специалный тип данных, беззнаковый, вмещает столько сколько определенная операционка предоставляет
-static size_t fail_count = 0;
-static size_t success_count_local = 0;
-static size_t fail_count_local = 0;
+static int success_count = 0;  //специалный тип данных, беззнаковый, вмещает столько сколько определенная операционка предоставляет
+static int fail_count = 0;
+static int success_count_local = 0;
+static int fail_count_local = 0;
+
+static _test* head = NULL;
+static _test* tail = NULL;
+
+void register_test(const char* name, test_func test) {
+    _test* tmp = malloc(sizeof(_test));
+    if (!tmp) {
+        fprintf(stderr, "Memory allocation failed\n");
+        return;
+    }
+    tmp->name = name;
+    tmp->test_func = test;
+    tmp->next = NULL;
+    
+    if (head == NULL && tail == NULL) {
+        head = tmp;
+        tail = tmp;
+        return;
+    }
+    tail->next = tmp;
+    tail = tmp;
+}
 
 void int_success(){
     success_count++;success_count_local++;
@@ -13,11 +36,11 @@ void int_fail(){
     fail_count++;fail_count_local++;
 }
 
-size_t get_local_fail(void) {
+int get_local_fail(void) {
     return fail_count_local;
 }
 
-size_t get_local_success(void) {
+int get_local_success(void) {
     return success_count_local;
 }
 
@@ -27,12 +50,53 @@ void reset_local_counts() {
 }
 
 int assert_fail(const char* expr, const char* file, size_t lineno) {
+    fprintf(stderr, "\033[0;31m%s:%zu:\t %s FAILED \033[0m\n", file, lineno, expr);
     int_fail();
-    fprintf(stderr, "\033[0;31mAssertion failed: %s at %s:%zu\033[0m\n", expr, file, lineno);
     return 0;
 }
 
-int assert_success(const char* expr, const char* file, size_t lineno){
+int assert_success(const char* expr, const char* file, size_t lineno) {
+    fprintf(stderr, "\033[0;32m%s:%zu:\t %s PASSED \033[0m\n", file, lineno, expr);
     int_success();
-    return 1;
+    return 0;
+}
+
+
+int print_stats() {
+    int total = fail_count + success_count;
+    if (total == 0) {
+        fprintf(stderr, "No tests run\n");
+        return 0;
+    }
+    float percentage = (float)success_count / (float)total * 100.0f;
+    fprintf(stderr, "\n%d of %d tests passed. %.2f%% SUCCEEDED\n",
+            success_count,
+            total,
+            percentage);
+    return success_count == 0 ? 1 : 0;
+}
+
+void run_test() {
+    _test* current = head;
+    while (current != NULL) {
+        fprintf(stderr, "\nRunning test: %s\n", current->name);
+        success_count_local = 0;
+        fail_count_local = 0;
+        
+        if (current->test_func != NULL) {
+            current->test_func();
+        }
+        current = current->next;
+    }
+}
+
+void cleanup_tests() {
+    _test* current = head;
+    while (current != NULL) {
+        _test* next = current->next;
+        free(current);
+        current = next;
+    }
+    head = NULL;
+    tail = NULL;
 }

@@ -18,11 +18,11 @@ field_info* create_double_field_info(){
     return temp;
 }
 
-int types_are_double(vector* a, vector* b){
-    return (a->info == &double_field_info && b->info == &double_field_info);
+int types_are_double(const vector* a, const vector* b){
+    return (a->info == double_field_info && b->info == double_field_info);
 }
 
-int is_equal_double(vector* a, vector* b){
+int is_equal_double(const vector* a, const vector* b){
     if (!types_are_double(a,b)){return -1;}
     return (*(double*)(a->x)==*(double*)(b->x)&&*(double*)(a->y)==*(double*)(b->y));
 }
@@ -40,10 +40,11 @@ vector* add_double(const vector* a, const vector* b){
     *new_y = *(double*)(a->y) + *(double*)(b->y);
     result->x = new_x;
     result->y = new_y;
+    result->info = get_double_field_info();
     return (void*)result;
 }
 
-int multip_double(vector* a, vector*b, void* result){
+int multip_double(const vector* a, const vector*b, void* result){
     if(!types_are_double(a, b)){return 0;}
     *(double*)result = (*(double*)(a->x))*(*(double*)(b->x)) + (*(double*)(a->y))*(*(double*)(b->y));
     return 1;

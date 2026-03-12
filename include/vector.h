@@ -12,10 +12,10 @@ typedef struct{
     field_info* info;
 }vector;
 
-typedef struct{
-    vector* (*add)(vector* vec1, vector* vec2);
-    int (*multip)(vector* vec1, vector* vec2, void* res);
-}field_info;
+struct field_info{
+    vector* (*add)(const vector* vec1, const vector* vec2);
+    int (*multip)(const vector* vec1, const vector* vec2, void* res);
+};
 
 vector new_vector(void* x, void* y, int is_int);
 
@@ -32,9 +32,9 @@ field_info* create_double_field_info(void);
 field_info* get_int_field_info(void);
 field_info* create_int_field_info(void);
 
-int types_are_double(vector* a, vector* b);
-int types_are_int(vector* a, vector* b);
-int is_equal_int(vector* a, vector* b);
-int is_equal_double(vector* a, vector* b);
+int types_are_double(const vector* a, const vector* b);
+int types_are_int(const vector* a, const vector* b);
+int is_equal_int(const vector* a, const vector* b);
+int is_equal_double(const vector* a, const vector* b);
 
 #endif
