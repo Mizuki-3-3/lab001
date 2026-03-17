@@ -7,7 +7,7 @@ field_info* get_int_field_info() {
         int_field_info = create_int_field_info();
     }
     return int_field_info;
-}//можем нули возвращать надо подумать как фиксить
+}
 
 field_info* create_int_field_info(){
     field_info* temp = (field_info*)malloc(sizeof(field_info));

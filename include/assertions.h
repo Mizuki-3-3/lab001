@@ -1,8 +1,4 @@
-#ifndef ASSERTIONS_H
-#define ASSERTIONS_H
-#include <stdio.h>
-#include <stddef.h>
-
+#pragma once
 #define assert(expr) \
     ((!!(expr)) \
     ? assert_success (#expr, __FILE__, __LINE__) \
@@ -18,5 +14,3 @@ int print_stats();
 
 int assert_success(const char* expr, const char* file, size_t line);
 int assert_fail(const char* expr, const char* file, size_t line);
-
-#endif

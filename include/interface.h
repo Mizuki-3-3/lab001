@@ -1,6 +1,4 @@
-#ifndef INTERFACE_H
-#define INTERFACE_H
-
+#pragma once
 #include <curses.h>
 #include <panel.h>
 #include <stdlib.h>
@@ -14,5 +12,3 @@ typedef struct cursed_window {
 void start_to_work(void);
 curw *make_new_win(void);
 void check_input_type(void);
-
-#endif

@@ -2,6 +2,9 @@
 
 void start_to_work(){
     initscr(); // инициализируем библиотеку
+    start_color();
+    init_pair(1, COLOR_WHITE, COLOR_RED);
+    
     cbreak();  // Не использовать буфер для функции getch()
     noecho(); // Не печатать на экране то, что набирает пользователь на клавиатуре
     keypad(stdscr, TRUE); // Активировать специальные клавиши клавиатуры
@@ -12,9 +15,6 @@ void start_to_work(){
         puts("\nYour terminal does not support color");
         exit(1);
     }
-    start_color();
-    init_pair(1, COLOR_WHITE, COLOR_RED);
-    
 }
 
 curw *make_new_win() {

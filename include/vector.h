@@ -1,5 +1,4 @@
-#ifndef VECTOR_H
-#define VECTOR_H
+#pragma once
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,6 +17,7 @@ struct field_info{
 };
 
 vector new_vector(void* x, void* y, int is_int);
+void del_vector(vector* v);
 
 vector* add_int(const vector* a, const vector* b);
 vector* add_double(const vector* a, const vector* b);
@@ -36,5 +36,3 @@ int types_are_double(const vector* a, const vector* b);
 int types_are_int(const vector* a, const vector* b);
 int is_equal_int(const vector* a, const vector* b);
 int is_equal_double(const vector* a, const vector* b);
-
-#endif

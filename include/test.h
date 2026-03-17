@@ -1,6 +1,4 @@
-#ifndef TESTING_H
-#define TESTING_H
-
+#pragma once
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -18,11 +16,11 @@ typedef struct _test{
 }_test;
 
 #define TEST(test_name) \
-    static void test_name##_test(void); \
-    static void __attribute__((constructor)) test_name##_init(void) { \
+    static void test_name##_test(); \
+    static void __attribute__((constructor)) test_name##_init() { \
         register_test(#test_name, test_name##_test); \
     } \
-    static void test_name##_test(void)
+    static void test_name##_test()
 
 #define TEST_ENTRY_POINT \
     int main(void) { \
@@ -31,5 +29,3 @@ typedef struct _test{
         cleanup_tests(); \
         return result; \
     }
-
-#endif

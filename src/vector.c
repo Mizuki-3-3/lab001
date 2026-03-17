@@ -8,6 +8,11 @@ vector new_vector(void* x, void* y, int is_int){
     else{vec.info = get_double_field_info();}
     return vec;
 }
+void del_vector(vector* v){
+    free(v->x);
+    free(v->y);
+    free(v);
+}
 
 
 //for floats if it'll be needed
