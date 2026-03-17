@@ -541,12 +541,7 @@ TEST(get_int_field_info_singleton) {
 
 TEST(get_int_field_info_add_not_null) {
     field_info* info = get_int_field_info();
-    assert(info->add != NULL);
-}
-
-TEST(get_int_field_info_multip_not_null) {
-    field_info* info = get_int_field_info();
-    assert(info->multip != NULL);
+    assert(info->add != NULL && info->multip != NULL);
 }
 
 TEST(get_double_field_info_not_null) {
@@ -562,10 +557,5 @@ TEST(get_double_field_info_singleton) {
 
 TEST(get_double_field_info_add_not_null) {
     field_info* info = get_double_field_info();
-    assert(info->add != NULL);
-}
-
-TEST(get_double_field_info_multip_not_null) {
-    field_info* info = get_double_field_info();
-    assert(info->multip != NULL);
+    assert(info->add != NULL && info->multip != NULL);
 }
