@@ -16,13 +16,6 @@ TEST(create_int_vector) {
     assert((v.x == &x)&&(v.y == &y)&&(v.info == int_info));
 }
 
-TEST(create_double_vector) {
-    double x = 2.5, y = -1.2;
-    vector v = new_vector(&x, &y, 0);
-    field_info* double_info = get_double_field_info();
-    assert(v.info == double_info&&v.y == &y&&v.x == &x);
-}
-
 TEST(new_int_zero) {
     int x = 0, y = 0;
     vector v = new_vector(&x, &y, 1);
@@ -30,11 +23,11 @@ TEST(new_int_zero) {
     assert(v.info == get_int_field_info());
 }
 
-TEST(new_double_negative) {
-    double x = -1.5, y = -2.5;
+TEST(create_double_vector) {
+    double x = 2.5, y = -1.2;
     vector v = new_vector(&x, &y, 0);
-    assert(v.x == &x && v.y == &y);
-    assert(v.info == get_double_field_info());
+    field_info* double_info = get_double_field_info();
+    assert(v.info == double_info&&v.y == &y&&v.x == &x);
 }
 
 TEST(new_double_zero){
@@ -52,12 +45,33 @@ TEST(types_are_int_same) {
     assert(types_are_int(&v1, &v2));
 }
 
+TEST(types_are_int_same_object) {
+    int x = 1, y = 2;
+    vector v = new_vector(&x, &y, 1);
+    assert(types_are_int(&v, &v));
+}
+
 TEST(types_are_int_different) {
     int xi = 1, yi = 2;
     double xd = 1.0, yd = 2.0;
     vector v_int = new_vector(&xi, &yi, 1);
     vector v_double = new_vector(&xd, &yd, 0);
     assert(!types_are_int(&v_int, &v_double));
+}
+
+TEST(types_are_int_with_null_info) {
+    int x = 1, y = 2;
+    vector v = new_vector(&x, &y, 1);
+    vector v2 = v;
+    v2.info = NULL;
+    assert(!types_are_int(&v, &v2));
+}
+
+TEST(types_are_int_both_double) {
+    double x = 1.0, y = 2.0;
+    vector v = new_vector(&x, &y, 0);
+    vector v2 = new_vector(&x, &y, 0);
+    assert(!types_are_int(&v, &v2));
 }
 
 TEST(types_are_double_same) {
@@ -68,6 +82,12 @@ TEST(types_are_double_same) {
     assert(types_are_double(&v1, &v2));
 }
 
+TEST(types_are_double_same_object) {
+    double x = 1.0, y = 2.0;
+    vector v = new_vector(&x, &y, 0);
+    assert(types_are_double(&v, &v));
+}
+
 TEST(types_are_double_different) {
     int xi = 1, yi = 2;
     double xd = 1.0, yd = 2.0;
@@ -75,63 +95,38 @@ TEST(types_are_double_different) {
     vector v_double = new_vector(&xd, &yd, 0);
     assert(!types_are_double(&v_int, &v_double));
 }
-TEST(types_are_int_with_null_info) {
-    int x = 1, y = 2;
-    vector v = new_vector(&x, &y, 1);
-    vector v2 = v;
-    v2.info = NULL;
-    assert(types_are_int(&v, &v2) == 0);
-}
-
-TEST(types_are_int_both_double) {
-    double x = 1.0, y = 2.0;
-    vector v = new_vector(&x, &y, 0);
-    vector v2 = new_vector(&x, &y, 0);
-    assert(types_are_int(&v, &v2) == 0);
-}
-
-TEST(types_are_int_same_object) {
-    int x = 1, y = 2;
-    vector v = new_vector(&x, &y, 1);
-    assert(types_are_int(&v, &v) == 1);
-}
 
 TEST(types_are_double_with_null_info) {
     double x = 1.0, y = 2.0;
     vector v = new_vector(&x, &y, 0);
     vector v2 = v;
     v2.info = NULL;
-    assert(types_are_double(&v, &v2) == 0);
+    assert(!types_are_double(&v, &v2));
 }
 
 TEST(types_are_double_both_int) {
     int x = 1, y = 2;
     vector v = new_vector(&x, &y, 1);
     vector v2 = new_vector(&x, &y, 1);
-    assert(types_are_double(&v, &v2) == 0);
+    assert(!types_are_double(&v, &v2));
 }
 
-TEST(types_are_double_same_object) {
-    double x = 1.0, y = 2.0;
-    vector v = new_vector(&x, &y, 0);
-    assert(types_are_double(&v, &v) == 1);
-}
 
 ////////тест сравнение
 TEST(is_equal_int_equal) {
-    int x1 = 3, y1 = 4;
-    int x2 = 3, y2 = 4;
+    int x1 = 3, y1 = -4;
+    int x2 = 3, y2 = -4;
     vector v1 = new_vector(&x1, &y1, 1);
     vector v2 = new_vector(&x2, &y2, 1);
     int result = is_equal_int(&v1, &v2);
-    assert(result == 1);
+    assert(result);
 }
 
 TEST(is_equal_int_simmetry) {
     int x1 = 3, y1 = 4;
     vector v1 = new_vector(&x1, &y1, 1);
     int result = is_equal_int(&v1, &v1);
-    assert(result == 1);
+    assert(result);
 }
 
 TEST(is_equal_int_not_equal_1) {
@@ -140,7 +135,7 @@ TEST(is_equal_int_not_equal_1) {
     vector v1 = new_vector(&x1, &y1, 1);
     vector v2 = new_vector(&x2, &y2, 1);
     int result = is_equal_int(&v1, &v2);
-    assert(result == 0);
+    assert(!result);
 }
 
 TEST(is_equal_int_not_equal_2) {
@@ -149,7 +144,7 @@ TEST(is_equal_int_not_equal_2) {
     vector v1 = new_vector(&x1, &y1, 1);
     vector v2 = new_vector(&x2, &y2, 1);
     int result = is_equal_int(&v2, &v1);   //ПОМЕНЯЛИ 1 И 2 МЕСТАМИ
-    assert(result == 0);
+    assert(!result);
 }
 
 TEST(is_equal_int_diff_y) {
@@ -157,7 +152,7 @@ TEST(is_equal_int_diff_y) {
     int x2 = 5, y2 = 20;
     vector v1 = new_vector(&x1, &y1, 1);
     vector v2 = new_vector(&x2, &y2, 1);
-    assert(is_equal_int(&v1, &v2) == 0);
+    assert(!is_equal_int(&v1, &v2));
 }
 
 TEST(is_equal_int_diff_x) {
@@ -165,7 +160,7 @@ TEST(is_equal_int_diff_x) {
     int x2 = 5, y2 = 10;
     vector v1 = new_vector(&x1, &y1, 1);
     vector v2 = new_vector(&x2, &y2, 1);
-    assert(is_equal_int(&v1, &v2) == 0);
+    assert(!is_equal_int(&v1, &v2));
 }
 
 TEST(is_equal_int_different_types) {
@@ -183,7 +178,7 @@ TEST(is_equal_double_equal) {
     vector v1 = new_vector(&x1, &y1, 0);
     vector v2 = new_vector(&x2, &y2, 0);
     int result = is_equal_double(&v1, &v2);
-    assert(result == 1);
+    assert(result);
 }
 
 TEST(is_equal_double_not_equal) {
@@ -192,7 +187,7 @@ TEST(is_equal_double_not_equal) {
     vector v1 = new_vector(&x1, &y1, 0);
     vector v2 = new_vector(&x2, &y2, 0);
     int result = is_equal_double(&v1, &v2);
-    assert(result == 0);
+    assert(!result);
 }
 
 TEST(is_equal_double_different_types) {
@@ -209,7 +204,7 @@ TEST(is_equal_double_nan) {
     double y = 2.0;
     vector v1 = new_vector(&nan, &y, 0);
     vector v2 = new_vector(&nan, &y, 0);
-    assert(is_equal_double(&v1, &v2) == 0);  
+    assert(!is_equal_double(&v1, &v2));  
 }
 
 TEST(is_equal_double_inf) {
@@ -217,7 +212,7 @@ TEST(is_equal_double_inf) {
     double y = 2.0;
     vector v1 = new_vector(&inf, &y, 0);
     vector v2 = new_vector(&inf, &y, 0);
-    assert(is_equal_double(&v1, &v2) == 1);
+    assert(is_equal_double(&v1, &v2));
 }
 
 TEST(is_equal_double_neg_zero) {
@@ -225,7 +220,7 @@ TEST(is_equal_double_neg_zero) {
     double pzero = 0.0;
     vector v1 = new_vector(&nzero, &nzero, 0);
     vector v2 = new_vector(&pzero, &pzero, 0);
-    assert(is_equal_double(&v1, &v2) == 1);
+    assert(is_equal_double(&v1, &v2));
 }
 
 /////////сложение тест
@@ -237,9 +232,7 @@ TEST(add_int_simple) {
     vector v2 = new_vector(&x2, &y2, 1);
     vector* sum = add_int(&v1, &v2);
     assert(sum != NULL&&*(int*)sum->x == 4&&*(int*)sum->y == 6);
-    free(sum->x);
-    free(sum->y);
-    free(sum);
+    del_vector(sum);
 }
 
 TEST(add_int_commutative) {
@@ -261,7 +254,7 @@ TEST(add_int_zero) {
     vector v2 = new_vector(&x2, &y2, 1);
     vector* sum = add_int(&v1, &v2);
     assert(sum != NULL&&*(int*)sum->x == 5&&*(int*)sum->y == -7);
-    free(sum->x); free(sum->y); free(sum);
+    del_vector(sum);
 }
 
 TEST(add_int_negative) {
@@ -271,7 +264,7 @@ TEST(add_int_negative) {
     vector v2 = new_vector(&x2, &y2, 1);
     vector* sum = add_int(&v1, &v2);
     assert(sum != NULL&&*(int*)sum->x == -5&&*(int*)sum->y == 1);
-    free(sum->x); free(sum->y); free(sum);
+    del_vector(sum);
 }
 
 TEST(add_int_type_mismatch) {
@@ -291,7 +284,7 @@ TEST(add_double_simple) {
     vector v2 = new_vector(&x2, &y2, 0);
     vector* sum = add_double(&v1, &v2);
     assert(sum != NULL&&double_eq(*(double*)sum->x, 2.0)&&double_eq(*(double*)sum->y, 4.0));
-    free(sum->x); free(sum->y); free(sum);
+    del_vector(sum);
 }
 
 TEST(add_double_zero) {
@@ -301,7 +294,7 @@ TEST(add_double_zero) {
     vector v2 = new_vector(&x2, &y2, 0);
     vector* sum = add_double(&v1, &v2);
     assert(sum != NULL && double_eq(*(double*)sum->x, 3.3) && double_eq(*(double*)sum->y, -4.4));
-    free(sum->x); free(sum->y); free(sum);
+    del_vector(sum);
 }
 
 TEST(add_double_negative) {
@@ -311,7 +304,7 @@ TEST(add_double_negative) {
     vector v2 = new_vector(&x2, &y2, 0);
     vector* sum = add_double(&v1, &v2);
     assert(sum != NULL && double_eq(*(double*)sum->x, -4.6)&&double_eq(*(double*)sum->y, -3.3));
-    free(sum->x); free(sum->y); free(sum);
+    del_vector(sum);
 }
 
 TEST(add_double_precision) {
@@ -321,7 +314,7 @@ TEST(add_double_precision) {
     vector v2 = new_vector(&x2, &y2, 0);
     vector* sum = add_double(&v1, &v2);
     assert(sum != NULL && double_eq(*(double*)sum->x, 1.0)&&double_eq(*(double*)sum->y, 4.0/7.0));
-    free(sum->x); free(sum->y); free(sum);
+    del_vector(sum);
 }
 
 TEST(add_double_type_mismatch) {
@@ -331,6 +324,7 @@ TEST(add_double_type_mismatch) {
     vector v_double = new_vector(&xd, &yd, 0);
     vector* sum = add_double(&v_int, &v_double);
     assert(sum == NULL);
+    del_vector(sum);
 }
 
 TEST(add_double_nan) {
@@ -394,6 +388,7 @@ TEST(multip_int_1_vector) {
     int err = multip_int(&v1, &v2, &result);
     assert(err == 1 && result == 5);
 }
+
 TEST(multip_int_negative) {
     int x1 = -2, y1 = 3;
     int x2 = 4, y2 = -5;
