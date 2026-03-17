@@ -37,7 +37,7 @@ vector* add_int(const vector* a, const vector* b){
     result->x = new_x;
     result->y = new_y;
     result->info = get_int_field_info();
-    return (void*)result;
+    return result;
 }
 
 int multip_int(const vector* a, const vector* b, void* result){

@@ -1,4 +1,6 @@
 #pragma once
+#include <stddef.h>
+
 #define assert(expr) \
     ((!!(expr)) \
     ? assert_success (#expr, __FILE__, __LINE__) \

@@ -41,15 +41,11 @@ vector* add_double(const vector* a, const vector* b){
     result->x = new_x;
     result->y = new_y;
     result->info = get_double_field_info();
-    return (void*)result;
+    return result;
 }
 
 int multip_double(const vector* a, const vector*b, void* result){
     if(!types_are_double(a, b)){return 0;}
     *(double*)result = (*(double*)(a->x))*(*(double*)(b->x)) + (*(double*)(a->y))*(*(double*)(b->y));
-    if(isnan(*(double*)result)){
-        free(result);
-        return 0;
-    }
     return 1;
 }

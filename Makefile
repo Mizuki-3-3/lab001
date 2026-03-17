@@ -1,13 +1,12 @@
-#для компиляции тестов
 CC = gcc
+# #для компиляции тестов
 CFLAGS = -Iinclude -Wall -Wextra -std=c11
 LDFLAGS = -L. -lvector -lm
-TARGET = test_.exe
 TEST_SRC = tests/test_main.c tests/test_vector.c tests/assertions.c
 
-all: $(TARGET)
+all: test_.exe
 
-$(TARGET): $(TEST_SRC) libvector.a
+test_.exe: $(TEST_SRC) libvector.a
 	$(CC) $(CFLAGS) -o $@ $(TEST_SRC) $(LDFLAGS)
 
 clean:
@@ -16,11 +15,7 @@ clean:
 run: test_.exe
 	cmd.exe /c start cmd.exe /k test_.exe
 
-rebuild: clean all run
-.PHONY: all clean rebuild
-
 #для сборки библиотеки
-# CC = gcc
 # CFLAGS = -Iinclude -Wall -Wextra -std=c11
 # AR = ar
 # ARFLAGS = rcs
@@ -44,4 +39,5 @@ rebuild: clean all run
 # clean:
 # 	del $(OBJS) $(TARGET_LIB)
 
-# .PHONY: all clean
+rebuild: clean all run
+.PHONY: all clean rebuild run

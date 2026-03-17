@@ -1,7 +1,8 @@
 #include "assertions.h"
 #include "test.h"
+#include <stddef.h>
 
-static int success_count = 0;  //специалный тип данных, беззнаковый, вмещает столько сколько определенная операционка предоставляет
+static int success_count = 0;
 static int fail_count = 0;
 static int success_count_local = 0;
 static int fail_count_local = 0;
