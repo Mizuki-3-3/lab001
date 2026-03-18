@@ -2,6 +2,15 @@
 
 static field_info* double_field_info = NULL;
 
+double fabs(double a){
+    if (a<0){return -a;}
+    return a;
+}
+
+int double_eq(double a, double b) {  ///проверочка на точность
+    return fabs(a - b) < (1e-12);
+}
+
 field_info* get_double_field_info() {
     if (!double_field_info) {
         double_field_info = create_double_field_info();
@@ -25,7 +34,7 @@ int types_are_double(const vector* a, const vector* b){
 
 int equal_double(const vector* a, const vector* b){
     if (!types_are_double(a,b)){return -1;}
-    return (*(double*)(a->x)==*(double*)(b->x)&&*(double*)(a->y)==*(double*)(b->y));
+    return (double_eq(*(double*)(a->x),*(double*)(b->x))&&double_eq(*(double*)(a->y),*(double*)(b->y)));
 }
 
 vector* add_double(const vector* a, const vector* b){
