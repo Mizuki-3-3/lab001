@@ -1,10 +1,8 @@
 #include "interface.h"
 
 int main() {
-    // Инициализация
     start_to_work();
 
-    // Создаём окно
     curw *mywin = make_new_win();
     if (!mywin) {
         endwin();
@@ -22,7 +20,6 @@ int main() {
     
     getch();
 
-    // Завершаем работу
     endwin();
     return 0;
 }

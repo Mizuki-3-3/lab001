@@ -1,6 +1,7 @@
 CC = gcc
-# #для компиляции тестов
 CFLAGS = -Iinclude -Wall -Wextra -std=c11
+# #для компиляции тестов
+
 LDFLAGS = -L. -lvector -lm
 TEST_SRC = tests/test_main.c tests/test_vector.c tests/assertions.c
 
@@ -16,7 +17,6 @@ run: test_.exe
 	cmd.exe /c start cmd.exe /k test_.exe
 
 #для сборки библиотеки
-# CFLAGS = -Iinclude -Wall -Wextra -std=c11
 # AR = ar
 # ARFLAGS = rcs
 # TARGET_LIB = libvector.a

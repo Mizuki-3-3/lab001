@@ -16,6 +16,7 @@ field_info* create_int_field_info(){
     }
     temp->add = add_int;
     temp->multip = multip_int;
+    temp->equal = equal_int;
     return temp;
 }
 
@@ -46,7 +47,7 @@ int multip_int(const vector* a, const vector* b, void* result){
     return 1;
 }
 
-int is_equal_int(const vector* a, const vector* b){
+int equal_int(const vector* a, const vector* b){
     if (!types_are_int(a,b)){return -1;}
     return (*(int*)(a->x)==*(int*)(b->x)&&*(int*)(a->y)==*(int*)(b->y));
 }

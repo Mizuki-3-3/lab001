@@ -118,15 +118,13 @@ TEST(is_equal_int_equal) {
     int x2 = 3, y2 = -4;
     vector v1 = new_vector(&x1, &y1, 1);
     vector v2 = new_vector(&x2, &y2, 1);
-    int result = is_equal_int(&v1, &v2);
-    assert(result);
+    assert(equal(&v1, &v2));
 }
 
 TEST(is_equal_int_simmetry) {
     int x1 = 3, y1 = 4;
     vector v1 = new_vector(&x1, &y1, 1);
-    int result = is_equal_int(&v1, &v1);
-    assert(result);
+    assert(equal(&v1, &v1));
 }
 
 TEST(is_equal_int_not_equal_1) {
@@ -134,8 +132,7 @@ TEST(is_equal_int_not_equal_1) {
     int x2 = 5, y2 = 6;
     vector v1 = new_vector(&x1, &y1, 1);
     vector v2 = new_vector(&x2, &y2, 1);
-    int result = is_equal_int(&v1, &v2);
-    assert(!result);
+    assert(!equal(&v1, &v2));
 }
 
 TEST(is_equal_int_not_equal_2) {
@@ -143,7 +140,7 @@ TEST(is_equal_int_not_equal_2) {
     int x2 = 5, y2 = 6;
     vector v1 = new_vector(&x1, &y1, 1);
     vector v2 = new_vector(&x2, &y2, 1);
-    int result = is_equal_int(&v2, &v1);   //ПОМЕНЯЛИ 1 И 2 МЕСТАМИ
+    int result = equal(&v2, &v1);   //ПОМЕНЯЛИ 1 И 2 МЕСТАМИ
     assert(!result);
 }
 
@@ -152,7 +149,7 @@ TEST(is_equal_int_diff_y) {
     int x2 = 5, y2 = 20;
     vector v1 = new_vector(&x1, &y1, 1);
     vector v2 = new_vector(&x2, &y2, 1);
-    assert(!is_equal_int(&v1, &v2));
+    assert(!equal(&v1, &v2));
 }
 
 TEST(is_equal_int_diff_x) {
@@ -160,7 +157,7 @@ TEST(is_equal_int_diff_x) {
     int x2 = 5, y2 = 10;
     vector v1 = new_vector(&x1, &y1, 1);
     vector v2 = new_vector(&x2, &y2, 1);
-    assert(!is_equal_int(&v1, &v2));
+    assert(!equal(&v1, &v2));
 }
 
 TEST(is_equal_int_different_types) {
@@ -168,7 +165,7 @@ TEST(is_equal_int_different_types) {
     double xd = 3.0, yd = 4.0;
     vector v_int = new_vector(&xi, &yi, 1);
     vector v_double = new_vector(&xd, &yd, 0);
-    int result = is_equal_int(&v_int, &v_double);
+    int result = equal(&v_int, &v_double);
     assert(result == -1);
 }
 
@@ -177,8 +174,7 @@ TEST(is_equal_double_equal) {
     double x2 = 1.5, y2 = 2.5;
     vector v1 = new_vector(&x1, &y1, 0);
     vector v2 = new_vector(&x2, &y2, 0);
-    int result = is_equal_double(&v1, &v2);
-    assert(result);
+    assert(equal(&v1, &v2));
 }
 
 TEST(is_equal_double_not_equal) {
@@ -186,8 +182,7 @@ TEST(is_equal_double_not_equal) {
     double x2 = 1.6, y2 = 2.6;
     vector v1 = new_vector(&x1, &y1, 0);
     vector v2 = new_vector(&x2, &y2, 0);
-    int result = is_equal_double(&v1, &v2);
-    assert(!result);
+    assert(!equal(&v1, &v2));
 }
 
 TEST(is_equal_double_different_types) {
@@ -195,7 +190,7 @@ TEST(is_equal_double_different_types) {
     double xd = 1.5, yd = 2.5;
     vector v_int = new_vector(&xi, &yi, 1);
     vector v_double = new_vector(&xd, &yd, 0);
-    int result = is_equal_double(&v_int, &v_double);
+    int result = equal(&v_int, &v_double);
     assert(result == -1);
 }
 
@@ -204,7 +199,7 @@ TEST(is_equal_double_nan) {
     double y = 2.0;
     vector v1 = new_vector(&nan, &y, 0);
     vector v2 = new_vector(&nan, &y, 0);
-    assert(!is_equal_double(&v1, &v2));  
+    assert(!equal(&v1, &v2));  
 }
 
 TEST(is_equal_double_inf) {
@@ -212,7 +207,7 @@ TEST(is_equal_double_inf) {
     double y = 2.0;
     vector v1 = new_vector(&inf, &y, 0);
     vector v2 = new_vector(&inf, &y, 0);
-    assert(is_equal_double(&v1, &v2));
+    assert(equal(&v1, &v2));
 }
 
 TEST(is_equal_double_neg_zero) {
@@ -220,7 +215,7 @@ TEST(is_equal_double_neg_zero) {
     double pzero = 0.0;
     vector v1 = new_vector(&nzero, &nzero, 0);
     vector v2 = new_vector(&pzero, &pzero, 0);
-    assert(is_equal_double(&v1, &v2));
+    assert(equal(&v1, &v2));
 }
 
 /////////сложение тест
@@ -230,7 +225,7 @@ TEST(add_int_simple) {
     int x2 = 1, y2 = 2;
     vector v1 = new_vector(&x1, &y1, 1);
     vector v2 = new_vector(&x2, &y2, 1);
-    vector* sum = v1.info->add(&v1, &v2);
+    vector* sum = add(&v1, &v2);
     assert(sum != NULL&&*(int*)sum->x == 4&&*(int*)sum->y == 6);
     del_vector(sum);
 }
@@ -240,8 +235,8 @@ TEST(add_int_commutative) {
     int x2 = 1, y2 = 2;
     vector v1 = new_vector(&x1, &y1, 1);
     vector v2 = new_vector(&x2, &y2, 1);
-    vector* sum1 = v1.info->add(&v1, &v2);
-    vector* sum2 = v1.info->add(&v2, &v1);
+    vector* sum1 = add(&v1, &v2);
+    vector* sum2 = add(&v2, &v1);
     assert((*(int*)sum1->x == *(int*)sum2->x)&&(*(int*)sum1->y == *(int*)sum2->y));
     del_vector(sum1);
     del_vector(sum2);
@@ -252,7 +247,7 @@ TEST(add_int_zero) {
     int x2 = 0, y2 = 0;
     vector v1 = new_vector(&x1, &y1, 1);
     vector v2 = new_vector(&x2, &y2, 1);
-    vector* sum = v1.info->add(&v1, &v2);
+    vector* sum = add(&v1, &v2);
     assert(is_equal_int(&v1, sum));
     del_vector(sum);
 }
@@ -262,7 +257,7 @@ TEST(add_int_negative) {
     int x2 = -3, y2 = -4;
     vector v1 = new_vector(&x1, &y1, 1);
     vector v2 = new_vector(&x2, &y2, 1);
-    vector* sum = v1.info->add(&v1, &v2);
+    vector* sum = add(&v1, &v2);
     assert(sum != NULL&&*(int*)sum->x == -5&&*(int*)sum->y == 1);
     del_vector(sum);
 }
@@ -272,7 +267,7 @@ TEST(add_int_type_mismatch) {
     double xd = 1.0, yd = 2.0;
     vector v_int = new_vector(&xi, &yi, 1);
     vector v_double = new_vector(&xd, &yd, 0);
-    vector* sum = v_int.info->add(&v_int, &v_double);
+    vector* sum = add(&v_int, &v_double);
     assert(sum == NULL);
 }
 
@@ -281,7 +276,7 @@ TEST(add_int_opposite_elem){
     int x2 = -4, y2 = -7;
     vector v1 = new_vector(&x1, &y1, 1);
     vector v2 = new_vector(&x2, &y2, 1);
-    vector* sum = v1.info->add(&v1, &v2);
+    vector* sum = add(&v1, &v2);
     assert(*(int*)sum->x == 0 && *(int*)sum->y == 0);
     del_vector(sum);
 }
@@ -291,7 +286,7 @@ TEST(add_double_simple) {
     double x2 = 7.2, y2 = 1.6;
     vector v1 = new_vector(&x1, &y1, 0);
     vector v2 = new_vector(&x2, &y2, 0);
-    vector* sum = v1.info->add(&v1, &v2);
+    vector* sum = add(&v1, &v2);
     assert(sum != NULL&&double_eq(*(double*)sum->x, 8.7)&&double_eq(*(double*)sum->y, 4.1));
     del_vector(sum);
 }
@@ -301,7 +296,7 @@ TEST(add_double_zero) {
     double x2 = 0.0, y2 = -0.0;
     vector v1 = new_vector(&x1, &y1, 0);
     vector v2 = new_vector(&x2, &y2, 0);
-    vector* sum = v1.info->add(&v1, &v2);
+    vector* sum = add(&v1, &v2);
     assert(is_equal_double(&v1, sum));
     del_vector(sum);
 }
@@ -311,7 +306,7 @@ TEST(add_double_negative) {
     double x2 = -3.4, y2 = -5.6;
     vector v1 = new_vector(&x1, &y1, 0);
     vector v2 = new_vector(&x2, &y2, 0);
-    vector* sum = v1.info->add(&v1, &v2);
+    vector* sum = add(&v1, &v2);
     assert(sum != NULL && double_eq(*(double*)sum->x, -4.6)&&double_eq(*(double*)sum->y, -3.3));
     del_vector(sum);
 }
@@ -321,7 +316,7 @@ TEST(add_double_opposite_elem){
     double x2 = -4.98427, y2 = -7.49825;
     vector v1 = new_vector(&x1, &y1, 0);
     vector v2 = new_vector(&x2, &y2, 0);
-    vector* sum = v1.info->add(&v1, &v2);
+    vector* sum = add(&v1, &v2);
     assert(*(int*)sum->x == 0 && *(int*)sum->y == 0);
     del_vector(sum);
 }
@@ -331,7 +326,7 @@ TEST(add_double_precision) {
     double x2 = 2.0/3.0, y2 = 3.0/7.0;
     vector v1 = new_vector(&x1, &y1, 0);
     vector v2 = new_vector(&x2, &y2, 0);
-    vector* sum = v1.info->add(&v1, &v2);
+    vector* sum = add(&v1, &v2);
     assert(sum != NULL && double_eq(*(double*)sum->x, 1.0)&&double_eq(*(double*)sum->y, 4.0/7.0));
     del_vector(sum);
 }
@@ -341,7 +336,7 @@ TEST(add_double_type_mismatch) {
     double xd = 3.0, yd = 4.0;
     vector v_int = new_vector(&xi, &yi, 1);
     vector v_double = new_vector(&xd, &yd, 0);
-    vector* sum = v_double.info->add(&v_int, &v_double);
+    vector* sum = add(&v_int, &v_double);
     assert(sum == NULL);
 }
 
@@ -350,7 +345,7 @@ TEST(add_double_nan) {
     double x1 = 1.5, y1 = 2.5;
     vector v1 = new_vector(&x1, &y1, 0);
     vector v2 = new_vector(&nan, &y1, 0);
-    vector* sum = v1.info->add(&v1, &v2);
+    vector* sum = add(&v1, &v2);
     assert(sum != NULL);
     del_vector(sum);
 }
@@ -360,7 +355,7 @@ TEST(add_double_small_not_null) {
     double x2 = 2e-200, y2 = 3e-200;
     vector v1 = new_vector(&x1, &y1, 0);
     vector v2 = new_vector(&x2, &y2, 0);
-    vector* sum = v1.info->add(&v1, &v2);
+    vector* sum = add(&v1, &v2);
     assert(sum != NULL);
     del_vector(sum);
 }
@@ -373,8 +368,9 @@ TEST(multip_int_simple) {
     vector v1 = new_vector(&x1, &y1, 1);
     vector v2 = new_vector(&x2, &y2, 1);
     int result;
-    int err = multip_int(&v1, &v2, &result);
-    assert(err == 1&&result == 23);
+    int err = multip(&v1, &v2, &result);
+    assert(err == 1);
+    assert(result == 23);
 }
 
 TEST(multip_int_commutativity) {
@@ -383,7 +379,7 @@ TEST(multip_int_commutativity) {
     vector v1 = new_vector(&x1, &y1, 1);
     vector v2 = new_vector(&x2, &y2, 1);
     int result1, result2;
-    int err = multip_int(&v1, &v2, &result1)&&multip_int(&v2, &v1, &result2);
+    int err = multip(&v1, &v2, &result1)&&multip(&v2, &v1, &result2);
     assert(err == 1&&(result1 == result2));
 }
 
@@ -393,7 +389,7 @@ TEST(multip_int_zero) {
     vector v1 = new_vector(&x1, &y1, 1);
     vector v2 = new_vector(&x2, &y2, 1);
     int result;
-    int err = multip_int(&v1, &v2, &result);
+    int err = multip(&v1, &v2, &result);
     assert(err == 1 && result == 0);
 }
 
@@ -403,7 +399,7 @@ TEST(multip_int_1_vector) {
     vector v1 = new_vector(&x1, &y1, 1);
     vector v2 = new_vector(&x2, &y2, 1);
     int result;
-    int err = multip_int(&v1, &v2, &result);
+    int err = multip(&v1, &v2, &result);
     assert(err == 1 && result == 5);
 }
 
@@ -413,7 +409,7 @@ TEST(multip_int_negative) {
     vector v1 = new_vector(&x1, &y1, 1);
     vector v2 = new_vector(&x2, &y2, 1);
     int result;
-    int err = multip_int(&v1, &v2, &result);
+    int err = multip(&v1, &v2, &result);
     assert(err == 1&&result == -23);
 }
 
@@ -423,7 +419,7 @@ TEST(multip_int_type_mismatch) {
     vector v_int = new_vector(&xi, &yi, 1);
     vector v_double = new_vector(&xd, &yd, 0);
     int result;
-    int err = multip_int(&v_int, &v_double, &result);
+    int err = multip(&v_int, &v_double, &result);
     assert(err == 0);
 }
 
@@ -433,7 +429,7 @@ TEST(multip_int_large_result) {
     vector v1 = new_vector(&x1, &y1, 1);
     vector v2 = new_vector(&x2, &y2, 1);
     int result;
-    int err = multip_int(&v1, &v2, &result);
+    int err = multip(&v1, &v2, &result);
     assert((result == 10000*30000 + 20000*40000)&&err==1);
 }
 ///произведение даблов
@@ -444,7 +440,7 @@ TEST(multip_double_simple) {
     vector v1 = new_vector(&x1, &y1, 0);
     vector v2 = new_vector(&x2, &y2, 0);
     double result;
-    int err = multip_double(&v1, &v2, &result);
+    int err = multip(&v1, &v2, &result);
     assert(err == 1);
     assert(double_eq(result, 12.5));
 }
@@ -455,8 +451,8 @@ TEST(multip_double_commutativity) {
     vector v1 = new_vector(&x1, &y1, 0);
     vector v2 = new_vector(&x2, &y2, 0);
     double result1, result2;
-    int no_err = multip_double(&v1, &v2, &result1)&&multip_double(&v2, &v1, &result2);
-    assert(no_err&&(result1==result2));
+    int err = multip(&v1, &v2, &result1)&&multip(&v2, &v1, &result2);
+    assert(err&&(result1==result2));
 }
 
 TEST(multip_double_zero) {
@@ -465,8 +461,8 @@ TEST(multip_double_zero) {
     vector v1 = new_vector(&x1, &y1, 0);
     vector v2 = new_vector(&x2, &y2, 0);
     double result;
-    int no_err = multip_double(&v1, &v2, &result);
-    assert(no_err&&(result==0.0));
+    int err = multip(&v1, &v2, &result);
+    assert(err&&(result==0.0));
 }
 
 TEST(multip_double_1_vector) {
@@ -475,8 +471,8 @@ TEST(multip_double_1_vector) {
     vector v1 = new_vector(&x1, &y1, 0);
     vector v2 = new_vector(&x2, &y2, 0);
     double result;
-    int no_err = multip_double(&v1, &v2, &result);
-    assert(no_err&&(result==3.5));
+    int err = multip(&v1, &v2, &result);
+    assert(err&&(result==3.5));
 }
 
 TEST(multip_double_negative) {
@@ -485,7 +481,7 @@ TEST(multip_double_negative) {
     vector v1 = new_vector(&x1, &y1, 0);
     vector v2 = new_vector(&x2, &y2, 0);
     double result;
-    int err = multip_double(&v1, &v2, &result);
+    int err = multip(&v1, &v2, &result);
     assert(err == 1&&double_eq(result, -12.5));
 }
 
@@ -495,7 +491,7 @@ TEST(multip_double_precision) {
     vector v1 = new_vector(&x1, &y1, 0);
     vector v2 = new_vector(&x2, &y2, 0);
     double result;
-    int err = multip_double(&v1, &v2, &result);//// (1/3)*(2/3) + (1/7)*(3/7) =0.283446
+    int err = multip(&v1, &v2, &result);//// (1/3)*(2/3) + (1/7)*(3/7) =0.283446
     double expected = 2.0/9.0 + 3.0/49.0;
     assert(err&&double_eq(result, expected));
 }
@@ -506,7 +502,7 @@ TEST(multip_double_type_mismatch) {
     vector v_int = new_vector(&xi, &yi, 1);
     vector v_double = new_vector(&xd, &yd, 0);
     double result;
-    int err = multip_double(&v_int, &v_double, &result);
+    int err = multip(&v_int, &v_double, &result);
     assert(!err);
 }
 
@@ -517,8 +513,8 @@ TEST(multip_double_inf_err) {
     vector v1 = new_vector(&x1, &y1, 0);
     vector v2 = new_vector(&inf, &y2, 0);
     double result;
-    int no_err = multip_double(&v1, &v2, &result);
-    assert(no_err && isinf(result));
+    int err = multip(&v1, &v2, &result);
+    assert(err && isinf(result));
 }
 
 TEST(multip_double_nan_err) {
@@ -527,7 +523,7 @@ TEST(multip_double_nan_err) {
     vector v1 = new_vector(&x1, &y1, 0);
     vector v2 = new_vector(&nan, &y1, 0);
     double result;
-    int err = multip_double(&v1, &v2, &result);
+    int err = multip(&v1, &v2, &result);
     assert(err && isnan(result));
 }
 
@@ -537,38 +533,6 @@ TEST(multip_double_huge_err) {
     vector v1 = new_vector(&x1, &y1, 0);
     vector v2 = new_vector(&x2, &y2, 0);
     double result;
-    int err = multip_double(&v1, &v2, &result);
+    int err = multip(&v1, &v2, &result);
     assert(err && isinf(result));
-}
-
-TEST(get_int_field_info_not_null) {
-    field_info* info = get_int_field_info();
-    assert(info != NULL);
-}
-
-TEST(get_int_field_info_singleton) {
-    field_info* info1 = get_int_field_info();
-    field_info* info2 = get_int_field_info();
-    assert(info1 == info2);
-}
-
-TEST(get_int_field_info_add_not_null) {
-    field_info* info = get_int_field_info();
-    assert(info->add != NULL && info->multip != NULL);
-}
-
-TEST(get_double_field_info_not_null) {
-    field_info* info = get_double_field_info();
-    assert(info != NULL);
-}
-
-TEST(get_double_field_info_singleton) {
-    field_info* info1 = get_double_field_info();
-    field_info* info2 = get_double_field_info();
-    assert(info1 == info2);
-}
-
-TEST(get_double_field_info_add_not_null) {
-    field_info* info = get_double_field_info();
-    assert(info->add != NULL && info->multip != NULL);
 }
