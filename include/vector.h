@@ -20,6 +20,10 @@ struct field_info{
 vector* add(const vector* vec1, const vector* vec2);
 int multip(const vector* vec1, const vector* vec2, void* res);
 int equal(const vector* vec1, const vector* vec2);
+int get_xi(vector* v);
+int get_yi(vector* v);
+double get_xd(vector* v);
+double get_yd(vector*v);
 
 vector new_vector(void* x, void* y, int is_int);
 void del_vector(vector* v);

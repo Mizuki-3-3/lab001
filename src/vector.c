@@ -27,3 +27,15 @@ int equal(const vector* vec1, const vector* vec2){
     return(vec1->info->equal(vec1, vec2));
 }
 
+int get_xi(vector* v){
+    return *(int*)v->x;
+}
+int get_yi(vector* v){
+    return *(int*)v->y;
+}
+double get_xd(vector* v){
+    return *(double*)v->x;
+}
+double get_yd(vector* v){
+    return *(double*)v->y;
+}

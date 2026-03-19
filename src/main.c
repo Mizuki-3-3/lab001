@@ -1,25 +1,20 @@
 #include "interface.h"
+#include <stdio.h>
 
 int main() {
-    start_to_work();
-
-    curw *mywin = make_new_win();
-    if (!mywin) {
-        endwin();
-        printf("Не удалось создать окно\n");
-        return 0;
+    if (start_to_work()) {
+        fprintf(stderr, "Error initializing curses\n");
+        return 1;
     }
 
-    mvwaddstr(mywin->overlay, 1, 1, "Привет, мир!");
-    mvwaddstr(mywin->overlay, 2, 1, "Это тестовая строка.");
-    wrefresh(mywin->overlay);
-    getch();
+    curw *main_win = create_main_win();
+    if (!main_win) {
+        endwin();
+        return 1;
+    }
 
-    mvaddstr(0, 0, "Нажмите любую клавишу для выхода...");
-    refresh();
-    
-    getch();
+    run_interface(main_win);
 
-    endwin();
+    cleanup_interface(main_win);
     return 0;
 }
